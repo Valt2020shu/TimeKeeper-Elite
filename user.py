@@ -10,4 +10,5 @@ def CreateUser():
         os.makedirs(rf'Users\{user_name}')
         print(f"User: {user_name} created")
 
-CreateUser()
+if __name__ == "__main__":
+    CreateUser()
