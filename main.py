@@ -20,63 +20,86 @@ class task:
         return f"{self.text} was submitted at {self.time_submitted} under category: {self.category} and sub-category: {self.sub_category}"
 
 
+
+def input_task():
+    while True:
+        category = input("What is the broad category of the task that you are doing: \n\t\t(1)Studying \n\t\t(2)Playing \n\t\t(3)Watching \n\t\t(4)Productivity \n\t\t(5)Miscellaneous \n\t\t(6)Idle\n").title().strip()
+        if category == "Studying" or category == "1":
+            category = "Studying"
+            while True:
+                sub_category = eval(input("Which of the following sub-category best suits your current task: \n\t\t(1)Revision \n\t\t(2)Lectures     \n\t\t(3)Question Practice \n\t\t(4)Work Completion \n\t\t(5)Other\n").title().strip())
+                if sub_category in {"Revision","Lectures","Question Practice","Work Completion","Other",1,2,3,4,5}:
+                    if type(sub_category) == int:
+                        sub_category_number = sub_category
+                        sub_category_list = ["Revision","Lectures","Question Practice","Work Completion","Other"]
+                        sub_category = sub_category_list[sub_category_number-1]
+                    break
+                else:
+                    print("Enter a valid sub-category")
+                    time.sleep(1)
+            break
+        
+        elif category == "Playing" or category == "2":
+            category = "Playing"
+            while True:
+                sub_category = eval(input("Which of the following sub-category best suits your current task: \n\t\t(1)Playing Alone \n\t\t(2)Playing with Friends\n").title().strip())
+                if sub_category in {"Playing Alone","Playing With Friends",1,2}:
+                    if type(sub_category) == int:
+                        sub_category_number = sub_category
+                        sub_category_list = ["Playing Alone","Playing With Friends"]
+                        sub_category = sub_category_list[sub_category_number-1]
+                    
+                    break
+                else:
+                    print("Enter a valid sub-category")
+                    time.sleep(1)
+            break
+        elif category == "Watching" or category == "3":
+            category = "Watching"
+            while True:
+                sub_category = eval(input("Which of the following sub-category best suits your current task: \n\t\t(1)Anime \n\t\t(2)YouTube \n\t\t(3)Movie/TV Show\n").title().strip())
+                if sub_category in {"Anime","YouTube","Movie/TV Show",1,2,3}:
+                    if type(sub_category) == int:
+                        sub_category_number = sub_category
+                        sub_category_list = ["Anime","YouTube","Movie/TV Show"]
+                        sub_category = sub_category_list[sub_category_number-1]
+                    break
+                else:
+                    print("Enter a valid sub-category")
+                    time.sleep(1)
+            break
+        elif category == "Productivity" or category == "4":
+            category = "Productivity"
+            while True:
+                sub_category = eval(input("Which of the following sub-category best suits your current task: \n\t\t(1)Coding \n\t\t(2)Planning \n\t\t(3)Learning \n\t\t(4)Other\n").title().strip())
+                if sub_category in {"Coding","Planning","Learning","Other",1,2,3,4}:
+                    if type(sub_category) == int:
+                        sub_category_number = sub_category
+                        sub_category_list = ["Coding","Planning","Learning","Other"]
+                        sub_category = sub_category_list[sub_category_number-1]
+                    break
+                else:
+                    print("Enter a valid sub-category")
+                    time.sleep(1)
+            break
+        elif category == "Miscellaneous" or category == "5":
+            category = "Miscellaneous"
+            sub_category = input("Which sub-category best suits your current task\n").title().strip()
+            break
+        elif category == "Idle" or category == "6":
+            category = "Idle"
+            sub_category = "N/A"
+            break
+        else:
+            print("Please enter a valid category")
+            time.sleep(1)
+        
+    short_task = input("Please describe the task you are doing in short: ")
+    current_task = task(datetime.now(),category,sub_category,short_task)
+    return current_task
+    
+
+
 if __name__ == "__main__":
-    def input_task():
-        while True:
-            category = input("What is the broad category of the task that you are doing: \n\t\t(1)Studying \n\t\t(2)Playing \n\t\t(3)Watching \n\t\t(4)Productivity \n\t\t(5)Miscellaneous \n\t\t(6)Idle\n").title().strip()
-
-            if category == "Studying" or category == "1":
-                while True:
-                    sub_category = input("Which of the following sub-category best suits your current task: \n\t\t(1)Revision \n\t\t(2)Lectures     \n\t\t(3)Question Practice \n\t\t(4)Work Completion \n\t\t(5)Other\n").title().strip()
-                    if sub_category in {"Revision","Lectures","Question Practice","Work Completion","Other",1,2,3,4,5}:
-                        break
-                    else:
-                        print("Enter a valid sub-category")
-                        time.sleep(1)
-                break
-            
-            elif category == "Playing" or category == "2":
-                while True:
-                    sub_category = input("Which of the following sub-category best suits your current task: \n\t\t(1)Playing Alone \n\t\t(2)Playing with Friends\n").title().strip()
-                    if sub_category in {"Playing Alone","Playing With Friends",1,2}:
-                        break
-                    else:
-                        print("Enter a valid sub-category")
-                        time.sleep(1)
-                break
-
-            elif category == "Watching" or category == "3":
-                while True:
-                    sub_category = input("Which of the following sub-category best suits your current task: \n\t\t(1)Anime \n\t\t(2)YouTube \n\t\t(3)Movie/TV Show\n").title().strip()
-                    if sub_category in {"Anime","YouTube","Movie/TV Show",1,2,3}:
-                        break
-                    else:
-                        print("Enter a valid sub-category")
-                        time.sleep(1)
-                break
-
-            elif category == "Productivity" or category == "4":
-                while True:
-                    sub_category = input("Which of the following sub-category best suits your current task: \n\t\t(1)Coding \n\t\t(2)Planning \n\t\t(3)Learning \n\t\t(4)Other\n").title().strip()
-                    if sub_category in {"Coding","Planning","Learning","Other",1,2,3,4}:
-                        break
-                    else:
-                        print("Enter a valid sub-category")
-                        time.sleep(1)
-
-                break
-
-            elif category == "Miscellaneous" or category == "5":
-                sub_category = input("Which sub-category best suits your current task\n").title().strip()
-                break
-
-            elif category == "Idle" or category == "6":
-                sub_category = "N/A"
-                break
-
-            else:
-                print("Please enter a valid category")
-                time.sleep(1)
-
-
-input_task()
+    print(input_task())
+    
