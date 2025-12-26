@@ -1,8 +1,11 @@
 from datetime import datetime 
 import json
 import time
+import user 
+import os
+
 class task:
-    def __init__(self,time_submitted,category='misc',sub_category=None,text='Busy'):
+    def __init__(self,time_submitted,category='misc',sub_category=None,text='Busy',user="Default"):
         self.category = category
         self.text = text
         self.year = time_submitted.year
@@ -15,13 +18,21 @@ class task:
         self.sub_category = sub_category
         self.day_name = time_submitted.strftime("%A")
         self.time_submitted = (self.year,self.month,self.week,self.day,self.day_name,self.hour,self.minute,self.second)
+        self.user = user
     
     def __str__(self):
-        return f"{self.text} was submitted at {self.time_submitted} under category: {self.category} and sub-category: {self.sub_category}"
+        return f"{self.text} was submitted at {self.time_submitted} under category: {self.category} and sub-category: {self.sub_category} by {self.user}"
 
-
+user_list = os.listdir("Users")
 
 def input_task():
+    print("Select User:")
+    for i in range(len(user_list)):
+        print(f"({i+1}) {user_list[i]}")
+    current_user = input("\n")
+    if current_user.isdigit():
+        current_user = user_list[int(current_user)-1]
+
     while True:
         category = input("What is the broad category of the task that you are doing: \n\t\t(1)Studying \n\t\t(2)Playing \n\t\t(3)Watching \n\t\t(4)Productivity \n\t\t(5)Miscellaneous \n\t\t(6)Idle\n").title().strip()
         if category == "Studying" or category == "1":
@@ -95,11 +106,21 @@ def input_task():
             time.sleep(1)
         
     short_task = input("Please describe the task you are doing in short: ")
-    current_task = task(datetime.now(),category,sub_category,short_task)
+    current_task = task(datetime.now(),category,sub_category,short_task,current_user)
     return current_task
     
 
 
-if __name__ == "__main__":
-    print(input_task())
+def store(new_task: task):
+
+    user_store  = new_task.user
+    store_info = {f"{new_task.year}-{new_task.week}": {new_task.day_name: {f"{new_task.hour}-{new_task.minute}": {"Category": new_task.category, "Sub_Category": new_task.sub_category, "Task": new_task.text}}}}
+
+    with open(rf"Users\{user_store}\storage.json", 'a') as file:
+        json.dump(store_info, file, indent=3)
+
+    return
     
+
+if __name__ == "__main__":
+    store(input_task())
