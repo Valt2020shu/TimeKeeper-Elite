@@ -10,7 +10,7 @@ class task:
         self.text = text
         self.year = time_submitted.year
         self.month = time_submitted.month
-        self.week = time_submitted.strftime("%U ")
+        self.week = time_submitted.strftime("%U")
         self.day = time_submitted.day
         self.hour = time_submitted.hour
         self.minute = time_submitted.minute
@@ -114,10 +114,21 @@ def input_task():
 def store(new_task: task):
 
     user_store  = new_task.user
-    store_info = {f"{new_task.year}-{new_task.week}": {new_task.day_name: {f"{new_task.hour}-{new_task.minute}": {"Category": new_task.category, "Sub_Category": new_task.sub_category, "Task": new_task.text}}}}
+    store_info = {new_task.day_name:{f"{new_task.hour}-{new_task.minute}":{"Category": new_task.category, "Sub_Category": new_task.sub_category, "Task": new_task.text}}}
 
-    with open(rf"Users\{user_store}\storage.json", 'a') as file:
-        json.dump(store_info, file, indent=3)
+    with open(rf"Users\{user_store}\storage.json", "r") as file:
+        info = json.load(file)
+        if info[f"{new_task.year}-{new_task.week}"]:
+            if info[f"{new_task.year}-{new_task.week}"][new_task.day_name]:
+                info[f"{new_task.year}-{new_task.week}"][new_task.day_name][f"{new_task.hour}-{new_task.minute}"] = store_info[new_task.day_name][f"{new_task.hour}-{new_task.minute}"]
+            else:
+                info[f"{new_task.year}-{new_task.week}"][new_task.day_name] = store_info[new_task.day_name]
+        else:
+            info[f"{new_task.year}-{new_task.week}"] = store_info
+        if info["temp"]:
+            del info["temp"]
+    with open(rf"Users\{user_store}\storage.json", 'w') as file:
+        json.dump(info, file, indent=3)
 
     return
     
