@@ -118,15 +118,23 @@ def store(new_task: task):
 
     with open(rf"Users\{user_store}\storage.json", "r") as file:
         info = json.load(file)
-        if info[f"{new_task.year}-{new_task.week}"]:
-            if info[f"{new_task.year}-{new_task.week}"][new_task.day_name]:
-                info[f"{new_task.year}-{new_task.week}"][new_task.day_name][f"{new_task.hour}-{new_task.minute}"] = store_info[new_task.day_name][f"{new_task.hour}-{new_task.minute}"]
-            else:
-                info[f"{new_task.year}-{new_task.week}"][new_task.day_name] = store_info[new_task.day_name]
-        else:
-            info[f"{new_task.year}-{new_task.week}"] = store_info
-        if info["temp"]:
+        try:
             del info["temp"]
+        except Exception:
+            pass
+        try:
+            info[f"{new_task.year}-{new_task.week}"][new_task.day_name][f"{new_task.hour}-{new_task.minute}"] = store_info[new_task.day_name][f"{new_task.hour}-{new_task.minute}"]
+        except Exception:
+            try:
+                info[f"{new_task.year}-{new_task.week}"][new_task.day_name] = store_info[new_task.day_name]
+            except Exception:
+                try:
+                    info[f"{new_task.year}-{new_task.week}"] = store_info
+                except Exception:
+                    try:
+                        info = {f"{new_task.year}-{new_task.week}":store_info}
+                    except Exception:
+                        pass
     with open(rf"Users\{user_store}\storage.json", 'w') as file:
         json.dump(info, file, indent=3)
 
