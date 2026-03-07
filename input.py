@@ -1,8 +1,8 @@
 from datetime import datetime 
 import json
 import time
-import user 
 import os
+
 
 class task:
     def __init__(self,time_submitted,category='misc',sub_category=None,text='Busy',user="Default"):
@@ -24,15 +24,26 @@ class task:
         return f"{self.text} was submitted at {self.time_submitted} under category: {self.category} and sub-category: {self.sub_category} by {self.user}"
 
 user_list = os.listdir("Users")
+def user_selection():
+    print("Select User:")
+    while True:
+        try:
+            for i in range(len(user_list)):
+                print(f"({i+1}) {user_list[i]}")
+            
+            current_user = input("\n").title()
+            if current_user.isdigit():
+                current_user = user_list[int(current_user)-1]
+            elif current_user in user_list:
+                pass
+            else:
+                raise Exception
+            return current_user
+        except Exception:
+            print("Please select a valid user")
 
 def input_task():
-    print("Select User:")
-    for i in range(len(user_list)):
-        print(f"({i+1}) {user_list[i]}")
-    
-    current_user = input("\n")
-    if current_user.isdigit():
-        current_user = user_list[int(current_user)-1]
+    current_user = user_selection()
 
     while True:
         category = input("What is the broad category of the task that you are doing: \n\t\t(1)Studying \n\t\t(2)Playing \n\t\t(3)Watching \n\t\t(4)Productivity \n\t\t(5)Miscellaneous \n\t\t(6)Idle\n").title().strip()
